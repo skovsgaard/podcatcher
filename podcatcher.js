@@ -11,7 +11,9 @@ function podcatcher(input, output) {
   var getMedia = function(err, meta, articles) {
     var feedMedia = articles[0].enclosures[0].url;
     console.log('Downloading...');
-    request(feedMedia).pipe(fs.createWriteStream('out.mp3');
+    request(feedMedia).pipe(fs.createWriteStream('out.mp3').on('finish', function() {
+      console.log('Done!');
+    }));
   };
 
   feedparser.parseUrl(input, getMedia);
