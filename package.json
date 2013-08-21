@@ -1,0 +1,13 @@
+{
+	"name": "podcaster",
+	"description": "A few utilities for getting and saving podcasts from RSS",
+	"version": "0.0.1",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/skovsgaard/podcaster.git"
+	},
+	"dependencies": {
+		"request": "*",
+    "ortoo-feedparser": "*"
+	}
+}
