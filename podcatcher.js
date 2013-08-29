@@ -40,6 +40,17 @@ function getMediaType(article, meta) {
   return title;
 }
 
+// Default function for module, returning metadata of specified feed.
+function podcatcher(feedUrl, cb) {
+  feedparser.parseUrl(feedUrl, function(err, meta, articles) {
+    if (err) {
+      cb(err, meta);
+    } else {
+      cb(null, meta);
+    }
+  });
+}
+
 // Get the latest media in the specified podcast stream and download it.
 podcatcher.getNewest = function(feedUrl, cb) {
 
@@ -79,15 +90,17 @@ podcatcher.getByDate = function(feedUrl, date, cb) {
   feedparser.parseUrl(feedUrl, getArticle);
 };
 
-// Default function for module, returning metadata of specified feed.
-function podcatcher(feedUrl, cb) {
-  feedparser.parseUrl(feedUrl, function(err, meta, articles) {
+podcatcher.getMeta = function(feedUrl, cb) {
+
+  function getMeta(err, meta, articles) {
     if (err) {
-      cb(err, meta);
+      return cb(err, meta);
     } else {
-      cb(null, meta);
+      return cb(null, meta);
     }
-  });
+  }
+
+  feedparser.parseUrl(feedUrl, getMeta);
 }
 
 module.exports = podcatcher;
