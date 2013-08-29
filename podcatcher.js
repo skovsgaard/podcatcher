@@ -34,7 +34,7 @@ function getMediaType(article, meta) {
   var extension = article.enclosures[0].type;
   var date = article.pubDate.toISOString().slice(0,10);
   extension = '.' + extension.slice(extension.indexOf('/')+1, extension.length);
-  title = meta.title + '-' + date + extension;
+  var title = meta.title + '-' + date + extension;
   title = title.replace(/\s+/g, '').toLowerCase();
 
   return title;
@@ -62,7 +62,7 @@ podcatcher.getNewest = function(feedUrl, cb) {
 
     if (meta) {
       cb(null, meta);
-    } else {
+    } else if (err) {
       cb(new Error('Error 500'));
     }
   }
@@ -101,6 +101,6 @@ podcatcher.getMeta = function(feedUrl, cb) {
   }
 
   feedparser.parseUrl(feedUrl, getMeta);
-}
+};
 
 module.exports = podcatcher;
