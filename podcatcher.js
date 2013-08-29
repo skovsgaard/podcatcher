@@ -29,7 +29,7 @@ function getByDate(date, articles) {
   return article;
 }
 
-// Determine media
+// Determine media type and set filename accordingly.
 function getMediaType(article, meta) {
   var extension = article.enclosures[0].type;
   var date = article.pubDate.toISOString().slice(0,10);
@@ -88,19 +88,6 @@ podcatcher.getByDate = function(feedUrl, date, cb) {
 
   // Parse feed and download in parser's callback
   feedparser.parseUrl(feedUrl, getArticle);
-};
-
-podcatcher.getMeta = function(feedUrl, cb) {
-
-  function getMeta(err, meta, articles) {
-    if (err) {
-      return cb(err, meta);
-    } else {
-      return cb(null, meta);
-    }
-  }
-
-  feedparser.parseUrl(feedUrl, getMeta);
 };
 
 module.exports = podcatcher;
