@@ -44,12 +44,22 @@ function getMediaType(article, meta) {
 function podcatcher(feedUrl, cb) {
   feedparser.parseUrl(feedUrl, function(err, meta, articles) {
     if (err) {
-      cb(err, meta);
+      return cb(err, meta);
     } else {
-      cb(null, meta);
+      return cb(null, meta);
     }
   });
 }
+
+podcatcher.getAll = function(feedUrl, cb) {
+  feedparser.parseUrl(feedUrl, function(err, meta, articles) {
+    if (err) {
+      return cb(new Error('Error 500'));
+    } else {
+      return cb(null, meta, articles);
+    }
+  });
+};
 
 // Get the latest media in the specified podcast stream and download it.
 podcatcher.getNewest = function(feedUrl, cb) {
@@ -57,37 +67,69 @@ podcatcher.getNewest = function(feedUrl, cb) {
   // Callback to locate the newest media and download it.
   function getArticle(err, meta, articles) {
     var article = articles[0];
-    var fileName = getMediaType(article, meta);
-    downloadMedia(article.enclosures[0].url, fileName);
 
     if (meta) {
-      cb(null, meta);
+      return cb(null, meta, article);
     } else if (err) {
-      cb(new Error('Error 500'));
+      return cb(new Error('Error 500'));
     }
   }
 
   feedparser.parseUrl(feedUrl, getArticle);
+};
+
+podcatcher.downloadNewest = function(feedUrl, cb) {
+
+  // Callback to download media.
+  function download(err, meta, article) {
+    var fileName = getMediaType(article, meta);
+    downloadMedia(article.enclosures[0].url, fileName);
+
+    if (err) {
+      return cb(new Error('Error 500'));
+    } else {
+      return cb(null, meta, article);
+    }
+  }
+
+  // Get the feed and issue callback.
+  this.getNewest(feedUrl, download);
 };
 
 // Get the specified article in the specified podcast stream and download it.
 podcatcher.getByDate = function(feedUrl, date, cb) {
 
-  // Callback to locate the media at date and download it
+  // Callback to locate the media at date and download it.
   function getArticle(err, meta, articles) {
     var article = getByDate(date, articles);
-    var fileName = getMediaType(article, meta);
-    downloadMedia(article.enclosures[0].url, fileName);
 
     if (meta) {
-      cb(null, meta);
+      return cb(null, meta, article);
     } else if (err) {
-      cb(new Error('Error 500'));
+      return cb(new Error('Error 500'));
     }
   }
 
-  // Parse feed and download in parser's callback
+  // Parse feed and download in parser's callback.
   feedparser.parseUrl(feedUrl, getArticle);
 };
+
+podcatcher.downloadByDate = function(feedUrl, date, cb) {
+
+  // Callback to download media.
+  function download(err, meta, article) {
+    var fileName = getMediaType(article, meta);
+    downloadMedia(article.enclosures[0].url, fileName);
+
+    if (err) {
+      return cb(new Error('Error 500'));
+    } else {
+      return cb(null, meta, article);
+    }
+  }
+
+  // Find the feed and issue the callback.
+  this.getByDate(feedUrl, date, download);
+}
 
 module.exports = podcatcher;
