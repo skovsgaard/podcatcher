@@ -8,6 +8,7 @@ function downloadMedia(mediaUrl, title) {
 
   console.log('Downloading ' + title);
 
+  // Set 15sec ticker to indicate download activity.
   var waitTick = setInterval(function() {
     console.log("...");
   }, 15000);
@@ -18,10 +19,15 @@ function downloadMedia(mediaUrl, title) {
   });
 }
 
+//function readOpml(file) {
+
+//}
+
 // Get and return article from array, by date.
 function getByDate(date, articles) {
   var article;
   for (var i=0; i< articles.length; i++) {
+    // Check if the date of article[i] is a match.
     if (articles[i].pubDate.toISOString().slice(0,10) == date) {
       article = articles[i];
     }
@@ -33,6 +39,7 @@ function getByDate(date, articles) {
 function getMediaType(article, meta) {
   var extension = article.enclosures[0].type;
   var date = article.pubDate.toISOString().slice(0,10);
+  // Set extension to the filetype in .type, and ensure filename is lower case.
   extension = '.' + extension.slice(extension.indexOf('/')+1, extension.length);
   var title = meta.title + '-' + date + extension;
   title = title.replace(/\s+/g, '').toLowerCase();
