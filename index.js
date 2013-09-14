@@ -1,30 +1,20 @@
 var podcatcher = require('./podcatcher');
-
+var url = 'http://www.tuxradar.com/files/podcast/podcast_ogg.rss';
 var callback = function(err, meta, articles) {
   if (err) console.log(err);
   if (meta) console.log(meta.description);
 }
 
-//podcatcher.getByDate(
-//  'http://www.tuxradar.com/files/podcast/podcast_ogg.rss', '2013-08-01', callback
-//);
+//podcatcher(url, callback);
 
-//podcatcher.getNewest(
-//  'http://www.tuxradar.com/files/podcast/podcast_ogg.rss', callback
-//);
+//podcatcher.getByDate(url, '2013-08-01', callback);
 
-//podcatcher.getMeta(
-//  'http://www.tuxradar.com/files/podcast/podcast_ogg.rss', callback
-//);
+//podcatcher.getNewest(url , callback);
 
-//podcatcher.getAll(
-//  'http://www.tuxradar.com/files/podcast/podcast_ogg.rss', callback
-//);
+//podcatcher.getMeta(url , callback);
 
-//podcatcher.downloadNewest(
-//  'http://www.tuxradar.com/files/podcast/podcast_ogg.rss', callback
-//);
+//podcatcher.getAll(url , callback);
 
-podcatcher.downloadByDate(
-  'http://www.tuxradar.com/files/podcast/podcast_ogg.rss', '2013-08-01', callback
-);
+//podcatcher.downloadNewest(url , callback);
+
+//podcatcher.downloadByDate(url, '2013-08-01', callback);

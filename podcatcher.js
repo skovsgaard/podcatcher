@@ -19,10 +19,6 @@ function downloadMedia(mediaUrl, title) {
   });
 }
 
-//function readOpml(file) {
-
-//}
-
 // Get and return article from array, by date.
 function getByDate(date, articles) {
   var article;
