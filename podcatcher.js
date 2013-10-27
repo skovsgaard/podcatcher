@@ -74,7 +74,7 @@ podcatcher.saveFeed = function(feedUrl, feedTitle, cb) {
       return cb(null, meta);
     });
   });
-}
+};
 
 // Test method for reading from levelDB
 podcatcher.readFeed = function(key, cb) {
@@ -82,7 +82,7 @@ podcatcher.readFeed = function(key, cb) {
     if (err) return cb(err);
     return cb(null, val);
   })
-}
+};
 
 // Get the latest media in the specified podcast stream and download it.
 podcatcher.getNewest = function(feedUrl, cb) {
