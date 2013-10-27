@@ -12,7 +12,8 @@ pids
 logs
 results
 prep
-test
+db
+media
 
 npm-debug.log
 node_modules

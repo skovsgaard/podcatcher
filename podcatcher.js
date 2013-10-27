@@ -1,10 +1,19 @@
 var feedparser = require('ortoo-feedparser');
 var request = require('request');
+var level = require('level');
 var fs      = require('fs');
+var db = level('db', {valueEncoding: 'json'});
+var mediaDir = '';
+
+fs.exists('media/', function(exists) {
+  if (exists) {
+    mediaDir = 'media/';
+  }
+});
 
 // Download media at specified URL and set a ticker to indicate activity.
 function downloadMedia(mediaUrl, title) {
-  var media = request(mediaUrl).pipe(fs.createWriteStream(title));
+  var media = request(mediaUrl).pipe(fs.createWriteStream(mediaDir+title));
 
   console.log('Downloading ' + title);
 
@@ -54,15 +63,26 @@ function podcatcher(feedUrl, cb) {
   });
 }
 
-podcatcher.getAll = function(feedUrl, cb) {
-  feedparser.parseUrl(feedUrl, function(err, meta, articles) {
-    if (err) {
-      return cb(new Error('Error 500'));
-    } else {
-      return cb(null, meta, articles);
-    }
+// Same functionality as podcatcher(), added for consistency with other methods.
+podcatcher.getAll = podcatcher;
+
+// Test method for object writing
+podcatcher.saveFeed = function(feedUrl, feedTitle, cb) {
+  podcatcher(feedUrl, function(err, meta, articles) {
+    db.put(feedTitle, meta, function(err) {
+      if (err) return cb(err);
+      return cb(null, meta);
+    });
   });
-};
+}
+
+// Test method for reading from levelDB
+podcatcher.readFeed = function(key, cb) {
+  db.get(key, function(err, val) {
+    if (err) return cb(err);
+    return cb(null, val);
+  })
+}
 
 // Get the latest media in the specified podcast stream and download it.
 podcatcher.getNewest = function(feedUrl, cb) {
