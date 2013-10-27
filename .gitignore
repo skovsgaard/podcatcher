@@ -8,6 +8,7 @@ lib-cov
 *.gz
 *.mp3
 
+index.js
 pids
 logs
 results
