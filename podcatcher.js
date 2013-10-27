@@ -1,7 +1,6 @@
 var feedparser = require('ortoo-feedparser');
 var request = require('request');
 var fs      = require('fs');
-var db = require('./lib/feedDB');
 var mediaDir = '';
 
 fs.exists('media/', function(exists) {
@@ -9,6 +8,10 @@ fs.exists('media/', function(exists) {
     mediaDir = 'media/';
   }
 });
+
+/*
+ * Helper functions for use in identifying and downloading feeds/articles
+ */
 
 // Download media at specified URL and set a ticker to indicate activity.
 function downloadMedia(mediaUrl, title) {
@@ -51,23 +54,23 @@ function getMediaType(article, meta) {
   return title;
 }
 
+/*
+ * Module methods
+ */
+
 // Default function for module, returning metadata of specified feed.
 function podcatcher(feedUrl, cb) {
   feedparser.parseUrl(feedUrl, function(err, meta, articles) {
     if (err) {
-      return cb(err, meta);
+      return cb(err);
     } else {
-      return cb(null, meta);
+      return cb(null, meta, articles);
     }
   });
 }
 
 // Same functionality as podcatcher(), added for consistency with other methods.
 podcatcher.getAll = podcatcher;
-
-// Methods from lib/feedDB.js for reading and writing feed entries to and from levelDB
-podcatcher.saveFeed = db.save;
-podcatcher.readFeed = db.get;
 
 // Get the latest media in the specified podcast stream and download it.
 podcatcher.getNewest = function(feedUrl, cb) {
@@ -79,7 +82,7 @@ podcatcher.getNewest = function(feedUrl, cb) {
     if (meta) {
       return cb(null, meta, article);
     } else if (err) {
-      return cb(new Error('Error 500'));
+      return cb(err);
     }
   }
 
@@ -94,7 +97,7 @@ podcatcher.downloadNewest = function(feedUrl, cb) {
     downloadMedia(article.enclosures[0].url, fileName);
 
     if (err) {
-      return cb(new Error('Error 500'));
+      return cb(err);
     } else {
       return cb(null, meta, article);
     }
@@ -114,7 +117,7 @@ podcatcher.getByDate = function(feedUrl, date, cb) {
     if (meta) {
       return cb(null, meta, article);
     } else if (err) {
-      return cb(new Error('Error 500'));
+      return cb(err);
     }
   }
 
@@ -130,7 +133,7 @@ podcatcher.downloadByDate = function(feedUrl, date, cb) {
     downloadMedia(article.enclosures[0].url, fileName);
 
     if (err) {
-      return cb(new Error('Error 500'));
+      return cb(err);
     } else {
       return cb(null, meta, article);
     }
