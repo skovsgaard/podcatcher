@@ -7,6 +7,7 @@ lib-cov
 *.pid
 *.gz
 *.mp3
+*.swp
 
 index.js
 pids

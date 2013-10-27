@@ -1,8 +1,7 @@
 var feedparser = require('ortoo-feedparser');
 var request = require('request');
-var level = require('level');
 var fs      = require('fs');
-var db = level('db', {valueEncoding: 'json'});
+var db = require('./lib/feedDB');
 var mediaDir = '';
 
 fs.exists('media/', function(exists) {
@@ -66,23 +65,9 @@ function podcatcher(feedUrl, cb) {
 // Same functionality as podcatcher(), added for consistency with other methods.
 podcatcher.getAll = podcatcher;
 
-// Test method for object writing
-podcatcher.saveFeed = function(feedUrl, feedTitle, cb) {
-  podcatcher(feedUrl, function(err, meta, articles) {
-    db.put(feedTitle, meta, function(err) {
-      if (err) return cb(err);
-      return cb(null, meta);
-    });
-  });
-};
-
-// Test method for reading from levelDB
-podcatcher.readFeed = function(key, cb) {
-  db.get(key, function(err, val) {
-    if (err) return cb(err);
-    return cb(null, val);
-  })
-};
+// Methods from lib/feedDB.js for reading and writing feed entries to and from levelDB
+podcatcher.saveFeed = db.save;
+podcatcher.readFeed = db.get;
 
 // Get the latest media in the specified podcast stream and download it.
 podcatcher.getNewest = function(feedUrl, cb) {
