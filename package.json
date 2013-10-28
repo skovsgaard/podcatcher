@@ -8,7 +8,7 @@
 	},
 	"dependencies": {
 		"request": "*",
-    "ortoo-feedparser": "*",
-    "level": "*"
+    		"ortoo-feedparser": "*",
+    		"level": "*"
 	}
 }
