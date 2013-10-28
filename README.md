@@ -1,3 +1,3 @@
 # Podcatcher
 
-Module for easily creating a CLI podcast feed manager.
+Module for creating a podcast feed manager.
