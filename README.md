@@ -1,3 +1,3 @@
 # Podcatcher
 
-Module for creating a podcast feed manager.
+Node.js module using LevelDB to organize and download from podcast RSS feeds. 

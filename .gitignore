@@ -9,7 +9,6 @@ lib-cov
 *.mp3
 *.swp
 
-index.js
 pids
 logs
 results
