@@ -8,11 +8,12 @@ var feeds = {
   tuxradar:     'http://tuxradar.com/files/podcast/podcast_ogg.rss'
 }
 
-app.prepBatch(feeds, function(err, setup) {
-  app.runBatch(setup, function(err) {
-    app.getAll(function(err, res) {
-      if (err)console.log(err);
-      else console.log(res);
-    });
-  });
-});
+//app.put('harddisken', feeds.harddisken, function(err, res) {
+//  if (err) console.log(err);
+//  else console.log(res);
+//});
+
+app(function(err, res) {
+  if (err) console.log(err);
+  else console.log(res);
+})

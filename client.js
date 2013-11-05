@@ -10,6 +10,13 @@ var urls = {
   tuxradar: 'http://www.tuxradar.com/files/podcast/podcast_ogg.rss'
 }
 
+function putFeed(feed, url, cb) {
+  db.put(feed, url, function(err) {
+    if (err) return cb(err);
+    return cb(null, 'Feed saved successfully as ' + '\"' + feed + '\"');
+  });
+}
+
 function prepBatch(feedObj, cb) {
   var setup = [];
   for (x in feedObj) {
@@ -20,6 +27,7 @@ function prepBatch(feedObj, cb) {
 }
 
 function runBatch(setupArr, cb) {
+  if (!setupArr) return (cb(new Error('No array of feeds prepared.')));
   db.batch(setupArr, function(err) {
     if (err) return cb(err);
     return cb(null);
@@ -37,6 +45,7 @@ function client(cb) {
   })
 }
 
+client.put = putFeed;
 client.getAll = client;
 client.prepBatch = prepBatch;
 client.runBatch = runBatch;
