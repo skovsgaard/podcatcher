@@ -10,6 +10,13 @@ var urls = {
   tuxradar: 'http://www.tuxradar.com/files/podcast/podcast_ogg.rss'
 }
 
+function getFeed(feed, cb) {
+  db.get(feed, function(err, res) {
+    if (err) return cb(err);
+    return cb(null, res);
+  })
+}
+
 function putFeed(feed, url, cb) {
   db.put(feed, url, function(err) {
     if (err) return cb(err);
@@ -31,7 +38,7 @@ function runBatch(setupArr, cb) {
   db.batch(setupArr, function(err) {
     if (err) return cb(err);
     return cb(null);
-  })
+  });
 }
 
 function client(cb) {
@@ -45,6 +52,7 @@ function client(cb) {
   })
 }
 
+client.get = getFeed;
 client.put = putFeed;
 client.getAll = client;
 client.prepBatch = prepBatch;

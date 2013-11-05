@@ -13,7 +13,12 @@ var feeds = {
 //  else console.log(res);
 //});
 
-app(function(err, res) {
+//app(function(err, res) {
+//  if (err) console.log(err);
+//  else console.log(res);
+//});
+
+app.get('harddisken', function(err, res) {
   if (err) console.log(err);
   else console.log(res);
-})
+});
