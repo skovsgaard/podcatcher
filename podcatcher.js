@@ -1,7 +1,9 @@
-var feedparser = require('ortoo-feedparser');
-var request = require('request');
-var fs      = require('fs');
-var mediaDir = '';
+var feedparser  = require('ortoo-feedparser');
+var request     = require('request');
+var fs          = require('fs');
+var level       = require('level');
+var db          = level('db')
+var mediaDir    = '';
 
 fs.exists('media/', function(exists) {
   if (exists) {
@@ -143,4 +145,52 @@ podcatcher.downloadByDate = function(feedUrl, date, cb) {
   this.getByDate(feedUrl, date, download);
 }
 
+function getFeed(feed, cb) {
+  db.get(feed, function(err, res) {
+    if (err) return cb(err);
+    return cb(null, res);
+  })
+}
+
+function putFeed(feed, url, cb) {
+  db.put(feed, url, function(err) {
+    if (err) return cb(err);
+    return cb(null, 'Feed saved successfully as ' + '\"' + feed + '\"');
+  });
+}
+
+function prepBatch(feedObj, cb) {
+  var setup = [];
+  for (x in feedObj) {
+    setup.push({type:'put',key:x,value:feedObj[x]});
+  }
+  if (setup.length == 0) return cb(new Error('Error creating batch staging array.'));
+  cb(null, setup);
+}
+
+function runBatch(setupArr, cb) {
+  if (!setupArr) return (cb(new Error('No array of feeds prepared.')));
+  db.batch(setupArr, function(err) {
+    if (err) return cb(err);
+    return cb(null);
+  });
+}
+
+function client(cb) {
+  var res = [];
+  db.createReadStream().on('data', function(data) {
+    res.push(data);
+  }).on('error', function(err) {
+    return cb(err);
+  }).on('end', function() {
+    return cb(null, res);
+  })
+}
+
+podcatcher.putToDB = putFeed;
+podcatcher.prepBatch = prepBatch;
+podcatcher.runBatch = runBatch;
+podcatcher.getDB = client;
+podcatcher.getFromDB = getFeed;
 module.exports = podcatcher;
+
