@@ -1,14 +1,24 @@
 {
-	"name": "podcaster",
+	"name": "podcatcher",
 	"description": "A module for getting, saving, and organizing podcasts from RSS",
 	"version": "0.1.0",
+  "main": "podcatcher.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/skovsgaard/podcaster.git"
 	},
 	"dependencies": {
 		"request": "*",
-    		"ortoo-feedparser": "*",
-    		"level": "*"
-	}
+    "ortoo-feedparser": "*",
+    "level": "*"
+	},
+  "keywords": {
+    "podcast",
+    "RSS"
+  },
+  "author": "Jonas Skovsgaard Christensen",
+  "license": "MIT"
 }
