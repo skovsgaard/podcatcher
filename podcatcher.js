@@ -145,6 +145,10 @@ podcatcher.downloadByDate = function(feedUrl, date, cb) {
   this.getByDate(feedUrl, date, download);
 }
 
+/*
+ * Methods for dealing with LevelDB
+ */
+
 function getFeed(feed, cb) {
   db.get(feed, function(err, res) {
     if (err) return cb(err);
@@ -159,6 +163,8 @@ function putFeed(feed, url, cb) {
   });
 }
 
+//Prepare an object representing the data to write, in an array for use with a Level batch operation
+
 function prepBatch(feedObj, cb) {
   var setup = [];
   for (x in feedObj) {
@@ -168,6 +174,8 @@ function prepBatch(feedObj, cb) {
   cb(null, setup);
 }
 
+// When module is prepared, run the batch operation.
+
 function runBatch(setupArr, cb) {
   if (!setupArr) return (cb(new Error('No array of feeds prepared.')));
   db.batch(setupArr, function(err) {
@@ -176,7 +184,9 @@ function runBatch(setupArr, cb) {
   });
 }
 
-function client(cb) {
+// Return everything in db.
+//
+function getDBContents(cb) {
   var res = [];
   db.createReadStream().on('data', function(data) {
     res.push(data);
@@ -190,7 +200,7 @@ function client(cb) {
 podcatcher.putToDB = putFeed;
 podcatcher.prepBatch = prepBatch;
 podcatcher.runBatch = runBatch;
-podcatcher.getDB = client;
+podcatcher.getDB = getDBContents;
 podcatcher.getFromDB = getFeed;
 module.exports = podcatcher;
 

@@ -15,10 +15,10 @@
     "ortoo-feedparser": "*",
     "level": "*"
 	},
-  "keywords": {
+  "keywords": [
     "podcast",
     "RSS"
-  },
+  ],
   "author": "Jonas Skovsgaard Christensen",
   "license": "MIT"
 }
