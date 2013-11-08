@@ -165,24 +165,24 @@ function putFeed(feed, url, cb) {
 
 //Prepare an object representing the data to write, in an array for use with a Level batch operation
 
-function prepBatch(feedObj, cb) {
-  var setup = [];
-  for (x in feedObj) {
-    setup.push({type:'put',key:x,value:feedObj[x]});
-  }
-  if (setup.length == 0) return cb(new Error('Error creating batch staging array.'));
-  cb(null, setup);
-}
-
-// When module is prepared, run the batch operation.
-
-function runBatch(setupArr, cb) {
-  if (!setupArr) return (cb(new Error('No array of feeds prepared.')));
-  db.batch(setupArr, function(err) {
-    if (err) return cb(err);
-    return cb(null);
-  });
-}
+//function prepBatch(feedObj, cb) {
+//  var setup = [];
+//  for (x in feedObj) {
+//    setup.push({type:'put',key:x,value:feedObj[x]});
+//  }
+//  if (setup.length == 0) return cb(new Error('Error creating batch staging array.'));
+//  cb(null, setup);
+//}
+//
+//// When module is prepared, run the batch operation.
+//
+//function runBatch(setupArr, cb) {
+//  if (!setupArr) return (cb(new Error('No array of feeds prepared.')));
+//  db.batch(setupArr, function(err) {
+//    if (err) return cb(err);
+//    return cb(null, 'Feed array successfully saved.');
+//  });
+//}
 
 // Return everything in db.
 //
@@ -197,10 +197,10 @@ function getDBContents(cb) {
   })
 }
 
-podcatcher.putToDB = putFeed;
-podcatcher.prepBatch = prepBatch;
-podcatcher.runBatch = runBatch;
+podcatcher.putFeed = putFeed;
+//podcatcher.prepBatch = prepBatch;
+//podcatcher.runBatch = runBatch;
 podcatcher.getDB = getDBContents;
-podcatcher.getFromDB = getFeed;
+podcatcher.getFeed = getFeed;
 module.exports = podcatcher;
 
