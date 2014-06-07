@@ -74,7 +74,7 @@ function podcatcher(feedUrl, cb) {
 // Same functionality as podcatcher(), added for consistency with other methods.
 podcatcher.getAll = podcatcher;
 
-// Get the latest media in the specified podcast stream and download it.
+// Get the latest media in the specified podcast stream.
 podcatcher.getNewest = function(feedUrl, cb) {
 
   // Callback to locate the newest media and download it.
@@ -163,29 +163,7 @@ function putFeed(feed, url, cb) {
   });
 }
 
-//Prepare an object representing the data to write, in an array for use with a Level batch operation
-
-//function prepBatch(feedObj, cb) {
-//  var setup = [];
-//  for (x in feedObj) {
-//    setup.push({type:'put',key:x,value:feedObj[x]});
-//  }
-//  if (setup.length == 0) return cb(new Error('Error creating batch staging array.'));
-//  cb(null, setup);
-//}
-//
-//// When module is prepared, run the batch operation.
-//
-//function runBatch(setupArr, cb) {
-//  if (!setupArr) return (cb(new Error('No array of feeds prepared.')));
-//  db.batch(setupArr, function(err) {
-//    if (err) return cb(err);
-//    return cb(null, 'Feed array successfully saved.');
-//  });
-//}
-
 // Return everything in db.
-//
 function getDBContents(cb) {
   var res = [];
   db.createReadStream().on('data', function(data) {
