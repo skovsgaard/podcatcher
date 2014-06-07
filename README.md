@@ -15,7 +15,7 @@ Also in order to run the tests, make sure you've got mocha installed: `sudo npm 
 
 ## How to use
 
-In order to use podcatcher, either download it by cloning this repository and using `sudo npm install` to get the dependencies or just running `sudo npm install podcatcher'
+In order to use podcatcher, either download it by cloning this repository and using `sudo npm install` to get the dependencies or just running `sudo npm install podcatcher`
 
 From there, just require it like any other module with `var podcatcher = require('podcatcher');`
 
