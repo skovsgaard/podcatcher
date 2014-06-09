@@ -25,12 +25,15 @@ The way it works now, podcatcher exposes the following functions:
 
 ### .getAll() or podcatcher()
 
-Takes an RSS feed URL and a callback, returning the callback with the arguments `err`, `meta`, and `articles` where `meta` is the metadata (description, etc.) for the specified RSS feed, and articles is the full list of that feed's articles.
+Takes an RSS feed URL and a callback, returning the callback with the arguments `err`, `meta`, and `articles` where `meta` is the metadata (description, etc.) for the specified RSS feed, and `articles` is the full list of that feed's articles.
 
 ```js
-podcatcher.getAll('http://feeds.feedburner.com/NodeUp', function(err, meta, res) {
+podcatcher.getAll('http://feeds.feedburner.com/NodeUp', function(err, meta, articles) {
   if (err) console.log(err);
   console.log(meta);
+  articles.forEach(function(item) {
+    console.log(item);
+  });
 });
 ```
 
