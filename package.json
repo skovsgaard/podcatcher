@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/skovsgaard/podcaster.git"
+    "url": "https://github.com/skovsgaard/podcatcher.git"
   },
   "dependencies": {
     "request": "*",
@@ -23,9 +23,9 @@
   "author": "Jonas Skovsgaard Christensen",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/skovsgaard/podcaster/issues"
+    "url": "https://github.com/skovsgaard/podcatcher/issues"
   },
-  "homepage": "https://github.com/skovsgaard/podcaster",
+  "homepage": "https://github.com/skovsgaard/podcatcher",
   "directories": {
     "test": "test"
   },
