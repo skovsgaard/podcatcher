@@ -116,6 +116,8 @@ podcatcher.getByDate = function(feedUrl, date, cb) {
   function getArticle(err, meta, articles) {
     var article = getByDate(date, articles);
 
+    if (!cb) return articles;
+
     if (meta) {
       return cb(null, meta, article);
     } else if (err) {
@@ -134,6 +136,8 @@ podcatcher.downloadByDate = function(feedUrl, date, cb) {
     var fileName = getMediaType(article, meta);
     downloadMedia(article.enclosures[0].url, fileName);
 
+    if (!cb) return;
+
     if (err) {
       return cb(err);
     } else {
@@ -151,6 +155,8 @@ podcatcher.downloadByDate = function(feedUrl, date, cb) {
 
 function getFeed(feed, cb) {
   db.get(feed, function(err, res) {
+    if (!cb) return res;
+
     if (err) return cb(err);
     return cb(null, res);
   })
@@ -158,6 +164,8 @@ function getFeed(feed, cb) {
 
 function putFeed(feed, url, cb) {
   db.put(feed, url, function(err) {
+    if (!cb) return;
+
     if (err) return cb(err);
     return cb(null, 'Feed saved successfully as ' + '\"' + feed + '\"');
   });
@@ -176,8 +184,6 @@ function getDBContents(cb) {
 }
 
 podcatcher.putFeed = putFeed;
-//podcatcher.prepBatch = prepBatch;
-//podcatcher.runBatch = runBatch;
 podcatcher.getDB = getDBContents;
 podcatcher.getFeed = getFeed;
 module.exports = podcatcher;

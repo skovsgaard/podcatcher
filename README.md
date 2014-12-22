@@ -10,7 +10,7 @@ This module is a small collection of helper functions for easily writing apps fo
 - [ortoo-feedparser](https://github.com/ortoo/node-feedparser)
 - [level](https://github.com/level/level)
 
-Also in order to run the tests, make sure you've got mocha installed: `sudo npm install -g mocha`
+Also if you want to run the tests, make sure you've got mocha installed: `sudo npm install -g mocha`
 
 
 ## How to use
