@@ -55,6 +55,10 @@ describe('Podcatcher', function() {
   
   describe('#getFeed()', function() {
     it('should return the requested feed', function(done) {
+      podcatcher.putFeed(feedName, feedUrl, function(err, res) {
+	console.log('Put stuff in DB');
+      });
+
       podcatcher.getFeed(feedName, function(err, res) {
         if (err) throw err;
         done();
